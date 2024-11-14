@@ -1,1 +1,13 @@
-**/.DS_Store
+# Ignore virtual environment directory
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Ignore other potential files
+.DS_Store  # macOS
+*.log      # Log files
+*.env      # Environment variables
