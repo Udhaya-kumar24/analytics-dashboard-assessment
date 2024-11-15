@@ -11,6 +11,6 @@ df = spark.read.option("header",True) \
     .option("inferSchema",True) \
     .csv("C:/React/Django/analytics-dashboard-assessment/dashboard/Electric_Vehicle_Population_Data.csv")
 
-def test():
+def test(request):
     length = df.filter(df.County == 'King').count()
     return JsonResponse({'res':length})
