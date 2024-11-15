@@ -20,3 +20,9 @@ def test(request):
     length = df.filter(df.County == 'King').count()
     print('test', length,'::::::::::::::::::::::::::::::::::::::::::::::::::::')
     return JsonResponse({'res':length})
+
+import os
+# Run 'java -version' command and capture the output
+java_version = os.popen('java -version').read()
+# Print the output (you can also log it to Render logs)
+print("Java Version:", java_version)
