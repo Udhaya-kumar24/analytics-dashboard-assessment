@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dashboardapp
+    env: docker
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn dashboard.wsgi:application --bind 0.0.0.0:8000"
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: dashboard.settings

@@ -20,17 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gfs&sld2&=yn8t@j-(xfg(jd3m!&$$14r&e(6&a0@xqp&sw6yv'
+SECRET_KEY = 'django-insecure-d6gj9tu7r=ik*y02u0%4m)0omzh!ip)(kk21ycjl%ebcbkug!q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # Or, ['your-render-app.onrender.com'] after deployment
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,12 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,14 +117,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+import os
 
-INSTALLED_APPS += ['corsheaders']
-MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
+# Static files settings
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-CORS_ALLOWED_ORIGINS = [
-    'https://udhayakumar24.netlify.app',  # Replace with your frontend URL
-]
+# Media files settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Custom media settings (optional)
+MEDIA_URL_DATA = '/media-data/'
+MEDIA_ROOT_DATA = os.path.join(BASE_DIR, 'media-data')
+
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
