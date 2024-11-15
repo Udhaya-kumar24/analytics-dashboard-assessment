@@ -1,24 +1,26 @@
-# Use the official Python image from Docker Hub
+# Use a minimal Python image
 FROM python:3.11-slim
 
-# Set environment variables to avoid Python writing .pyc files and buffering logs
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
+# Install only essential packages
+RUN apt-get update && apt-get install -y \
+    openjdk-11-jre-headless \
+    && apt-get clean
 
-# Set the working directory inside the container
+# Set environment variables for Java
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Install PySpark and Django dependencies
+RUN pip install --no-cache-dir pyspark django
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt /app/
+# Copy project files into the container
+COPY . /app
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code into the container
-COPY . /app/
-
-# Expose port 8000 (Django's default port)
+# Expose port 8000 for Django
 EXPOSE 8000
 
-# Run the application using Gunicorn
-CMD ["gunicorn", "dashboard.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Start the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,12 +1,13 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import home, test
+from .views import *
 
 urlpatterns = [
     # App Views
     path('', home, name='home'), 
     path('test', test, name="test"),
+    path('test-spark/', test_spark, name="test_spark"),
 ]
 
 # Serve static and media files during development

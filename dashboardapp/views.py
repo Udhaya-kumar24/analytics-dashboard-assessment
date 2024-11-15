@@ -21,8 +21,22 @@ def test(request):
     print('test', length,'::::::::::::::::::::::::::::::::::::::::::::::::::::')
     return JsonResponse({'res':length})
 
-import os
-# Run 'java -version' command and capture the output
-java_version = os.popen('java -version').read()
-# Print the output (you can also log it to Render logs)
-print("Java Version:", java_version,":::::::::::")
+from django.http import JsonResponse
+from pyspark.sql import SparkSession
+
+def test_spark(request):
+    try:
+        # Initialize SparkSession
+        spark = SparkSession.builder \
+            .appName("TestApp") \
+            .master("local[*]") \
+            .getOrCreate()
+
+        # Test Spark functionality
+        data = [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]
+        df = spark.createDataFrame(data)
+        count = df.count()
+
+        return JsonResponse({"status": "success", "spark_data_count": count})
+    except Exception as e:
+        return JsonResponse({"status": "error", "error": str(e)})
